@@ -1,0 +1,131 @@
+{% extends "gatherContent/_layouts/main" %}
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("gathercontent\\gathercontent\\assetbundles\\gathercontent\\GathercontentAsset") %}
+
+{% set crumbs = [
+{ label: "GatherContent"|t, url: url('gatherContent')  },
+{ label: "Mappings"|t, url:  url('gatherContent/mapping/index')  },
+{ label: "Items"|t, url: '' },
+] %}
+
+
+{% set fullPageForm %}
+    <form method="post" accept-charset="UTF-8" data-saveshortcut="1">
+{% endset %}
+
+{% block saveButton %}
+    <div class="buttons">
+        <div class="btngroup submit">
+        <div id="migration-loader" style="margin-top: 0; margin-right:5px" class="spinner loadingmore hidden"></div>
+            <a id="individual-migration" class="btn submit">
+                {{ "Migrate Items "|t }}
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+
+        <script>
+                var migrationFinishedUrl = '{{ cpUrl('migration-finished') }}';
+                var integrateItemsUrl = '{{ cpUrl('integrate-items-individually') }}';
+                var templateId = '{{ mapping.gatherContentTemplateId }}';
+                var clearSearchRoute = '{{ url('gatherContent/mapping/template') }}';
+                var isDetails = 'true';
+                var isEdit = 'false';
+        </script>
+
+        <div class="pane">
+            <div id="content" class="content">
+                <div class="body">
+
+                    <div class="toolbar">
+                        <div class="flex-grow clearable">
+                        <div id="check-all-wrapper" class="btn" role="checkbox" tabindex="0" aria-checked="false"><div id="check-all" class="checkbox"></div></div>
+
+                        {% if searchParameters['title'] is defined %}
+                            <input style="width: 30%" id="pageInfo[search][title]" name="pageInfo[search][title]" class="text" type="text" placeholder="Title" value={{ searchParameters['title'] }}>
+                        {% else %}
+                            <input style="width: 30%" id="pageInfo[search][title]" name="pageInfo[search][title]" class="text" type="text" placeholder="Title">
+                        {% endif %}
+
+                        {% if searchParameters['status'] is defined %}
+                            <input style="width: 30%" id="pageInfo[search][status]" name="pageInfo[search][status]" class="text" type="text" placeholder="Status" value={{ searchParameters['status'] }}>
+                        {% else %}
+                            <input style="width: 30%" id="pageInfo[search][status]" name="pageInfo[search][status]" class="text" type="text" placeholder="Status">
+                        {% endif %}
+
+                        <button style="width: 10%" class="btn" type="submit">
+                            Search
+                        </button>
+
+                        <button type="button" style="width: 10%" class="btn" id="clear-search">
+                            Clear
+                        </button>
+                    </div>
+
+                    {{ csrfInput() }}
+
+                    <div class="input ltr" style="margin-top:10px">
+                        {% paginate craft.entries.limit(2) as pageInfo, pageEntries %}
+                            <table class="data fullwidth">
+                                <thead>
+                                <tr>
+
+                                    {% set url = route ~ '/' ~ templateId %}
+
+                                    <th scope="thin"><a href="{{ sortUrls['title'] }}">Item Name</a></th>
+                                    <th scope="col"><a href="{{ sortUrls['status'] }}">GatherContent workflow status</a></th>
+                                    <th scope="col"><a href="{{ sortUrls['updated'] }}">Last updated in GatherContent</a></th>
+                                    <th scope="col"></th>
+                                </tr></thead>
+                                <tbody>
+                                {% for item in items %}
+
+                                {% set idValue = 'items[' ~ item['id'] ~ ']' %}
+
+                                <tr data-id="items" data-name="items[{{ item['title']|t }}]">
+                                    <td>
+                                        {{ forms.checkboxField({
+                                        label: item['title'],
+                                        id: idValue,
+                                        name: idValue,
+                                        checked: false
+                                        }) }}
+                                    </td>
+                                    <td data-title="{{ 'Status'|t }}">
+                                        {{ item['status'] }}
+                                    </td>
+                                    <td data-title="{{ 'Status'|t }}">
+                                        {{ item['updated'] }}
+                                    </td>
+                                    <td data-title="{{ 'Status'|t }}">
+                                       <a target="_blank" href="{{item['url']}}">
+                                           View Original
+                                       </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="centeralign" style="margin-top:15px">
+                            {% if exceededMaximum %}
+                                <p class="warning"><span data-icon="alert"></span>You can migrate max {{ maxCount }} items per batch. Use filter to decrease items count.</p>
+                            {% endif %}
+
+                            {% if previousPage %}<a class="btn" href="{{ previousPage }}">Previous Page</a> {% endif %}
+                            {% if nextPage %} <a class="btn" href="{{ nextPage }}">Next Page</a> {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            </form>
+
+            <div class="centeralign" style=" margin-top:15px">
+                <a target="_blank" style="display: inline-block; margin: 5px 0; font-size: 24px;" class="help" id="help" href="http://help.gathercontent.com/importing-and-exporting-content/craft-integration/"></a>
+            </div>
+        </div>
+
+{% endblock %}

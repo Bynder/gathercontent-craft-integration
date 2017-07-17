@@ -1,0 +1,69 @@
+{% extends "gatherContent/_layouts/main" %}
+{% import "_includes/forms" as forms %}
+
+{% set crumbs = [
+{ label: "GatherContent"|t, url: url('gatherContent')  },
+{ label: "Mappings"|t, url:  url('gatherContent/mapping/index')  },
+{ label: "Create new mapping"|t, url: '' },
+] %}
+
+
+{% set fullPageForm %}
+    <form method="post" accept-charset="UTF-8" data-saveshortcut="1">
+{% endset %}
+
+{% block saveButton %}
+    <div class="buttons">
+        <div class="btngroup submit">
+            <input type="submit" class="btn submit" value="{{ 'Migrate Items'|t }}">
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+
+        <div class="pane">
+            <div id="content" class="content">
+                <div class="body">
+
+                    {{ csrfInput() }}
+
+                    <div class="input ltr">
+                        <table class="data fullwidth">
+                            <thead>
+                            <tr>
+                                <th scope="thin"></th>
+                                <th scope="col">Title</th>
+                            </tr></thead>
+                            <tbody>
+                            {% for item in items %}
+
+                            {% set idValue = 'items[' ~ item['id'] ~ ']' %}
+
+                            <tr data-id="items[{{ item['id'] }}]" data-name="items[{{ item['title']|t }}]">
+                                <td class="thin">
+
+                                    {{ forms.checkboxField({
+                                    id: idValue,
+                                    name: idValue,
+                                    checked: true
+                                    }) }}
+
+                                </td>
+                                <td data-title="{{ 'Template'|t }}">
+                                    <a target="_blank" href="{{item['url']}}">
+                                        {{ item['title'] }}
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

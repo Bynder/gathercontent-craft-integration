@@ -1,0 +1,57 @@
+{
+    "name": "gathercontent/gathercontent",
+    "description": "Integrates GatherContent",
+    "type": "craft-plugin",
+    "version": "1.0.1-beta",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "gathercontent"
+    ],
+    "support": {
+        "docs": "http://solspace.com",
+        "issues": "http://solspace.com"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Solspace",
+            "homepage": "http://solspace.com"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "~3.0.0-beta.1",
+        "swiftmailer/swiftmailer": "^5.4",
+        "symfony/property-access": "^2.8",
+        "symfony/finder": "^2.8",
+        "symfony/filesystem": "^2.8",
+        "hashids/hashids": "^1.0",
+        "pixel418/markdownify": "2.1.11",
+        "egulias/email-validator": "^1.2"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "gathercontent\\gathercontent\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "GatherContent (Beta)",
+        "handle": "gathercontent",
+        "schemaVersion": "1",
+        "hasCpSettings": true,
+        "hasCpSection": true,
+        "changelogUrl": "???",
+        "components": {
+            "test": "gathercontent\\gathercontent\\services\\Test"
+        },
+        "class": "gathercontent\\gathercontent\\Gathercontent"
+    }
+}

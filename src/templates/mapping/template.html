@@ -1,0 +1,72 @@
+{% extends "gatherContent/_layouts/main" %}
+{% hook "gatherContent.prepareCpTemplate" %}
+
+{% set crumbs = [
+{ label: "GatherContent"|t, url: url('gatherContent')  },
+{ label: "Mappings"|t, url:  url('gatherContent/mapping/index')  },
+{ label: "Template"|t, url: '' },
+] %}
+
+{% set selectedSubnavItem = "mapping" %}
+
+{% set extraPageHeaderHtml %}
+
+<div id="migrating-bar">
+    <p id="migrating-bar-value">0%</p>
+    <p id="migrating-bar-value-batches"></p>
+</div>
+<div class="buttons">
+    <div class="loader-animation"></div>
+    {% if isValidApiUser %}
+    <button class="btn submit" onclick="integrate({{mapping.gatherContentTemplateId}})">
+        {{ "Migrate "|t }}
+    </button>
+    {% endif %}
+
+</div>
+
+{% endset %}
+
+{% set content %}
+
+<script>
+    var integrateUrl = '{{ cpUrl('integrate') }}';
+    var allMappingsUrl = '{{ cpUrl('get-all-mappings') }}';
+    window.csrfTokenValue = "{{ craft.request.getCsrfToken }}";
+</script>
+
+<div id="nomapping" {% if items %} class="hidden" {% endif %}>
+    {% if isValidApiUser %}
+    <p>{{ "No Mappings found"|t }}</p>
+    {% else %}
+    <p class="warning"><span data-icon="alert"></span>{{ "Valid API User is not set. Please set it in "|t }}<a href="/admin/settings/plugins/gathercontent">Settings</a></p>
+    {% endif %}
+</div>
+
+{% if items|length %}
+<table id="items" class="data fullwidth collapsible">
+    <thead>
+    <th scope="col">{{ "ID"|t }}</th>
+    <th scope="col">{{ "Title"|t }}</th>
+    <th scope="col">{{ "Actions"|t }}</th>
+    </thead>
+    <tbody>
+    {% for item in items %}
+    <tr data-id="{{ item['id'] }}" data-name="{{ item['title']|t }}">
+        <td data-title="{{ 'Template'|t }}">
+            {{ item['id'] }}
+        </td>
+        <td data-title="{{ 'Template'|t }}">
+            {{ item['title'] }}
+        </td>
+        <th scope="row" data-title="{{ 'Actions'|t }}">
+            <a target="_blank" class="btn submit" href="{{item['url']}}">
+                View In GC
+            </a>
+        </th>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endset %}

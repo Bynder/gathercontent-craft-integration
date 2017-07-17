@@ -1,0 +1,213 @@
+{% import "_includes/forms" as forms %}
+
+<a onclick="integrate()" id="integrate" class="btn submit">Integrate</a>
+<br/>
+<br/>
+<div id="left">
+    <form id="myForm ">
+        <select id="projects" onchange="populateTemplates();">
+            <option>Choose a project</option>
+        </select> <br/>
+
+        <select id="templates" onchange="populateElements();">
+            <option>Choose a project</option>
+        </select>
+
+        <select id="sections" onchange="populateFields();">
+            <option>Choose a section</option>
+        </select>
+
+        <div id="elements">
+        </div>
+    </form>
+</div>
+
+{% set myJs %}
+    document.onload = populateProjects();
+
+    function integrate()
+    {
+    $.ajax({
+    'type': 'post',
+    'contentType': 'application/x-www-form-urlencoded; charset=UTF-8',
+    'cache': false,
+    'url': '{{ cpUrl('integrate') }}',
+    'dataType': 'json',
+    'timeout': 50000000
+    }).done(function (data) {
+
+    alert("Finished integraton");
+
+    }).error(function (jqXHR, textStatus, errorThrown) {
+    console.log(jQuery.parseJSON(jqXHR.responseText));
+    alert("Something went wrong: " + jQuery.parseJSON(jqXHR.responseText)['error']['message']);
+    });
+    }
+
+    function populateFields()
+    {
+    console.log("Triggered on change");
+
+    var sectionsElement = document.getElementById("settings-sections");
+    console.log("sectionsElement " + sectionsElement );
+    var sectionId = sectionsElement.options[sectionsElement.selectedIndex].value;
+    console.log("sectionId " + sectionId);
+
+    $.ajax({
+    'type': 'post',
+    'contentType': 'application/x-www-form-urlencoded; charset=UTF-8',
+    'cache': false,
+    'url': '{{ cpUrl('get-fields') }}/' + sectionId,
+    'dataType': 'json',
+    'timeout': 50000000
+    }).done(function (data) {
+    clearAllOptionsByClass("settings-fields");
+    addToFields(data['fields']);
+
+    }).error(function (jqXHR, textStatus, errorThrown) {
+    console.log(jQuery.parseJSON(jqXHR.responseText));
+    alert("Something went wrong: " + jQuery.parseJSON(jqXHR.responseText)['error']['message']);
+    });
+    }
+
+    function addToFields(fields) {
+    $(".settings-fields").each(function( index ) {
+    for(var i=0; i < fields.length; i++) {
+    var $newOption = $("<option value='"+fields[i].id+"'>"+ fields[i].name +"</option>");
+    $(this).append($newOption);
+    }});
+    }
+
+    function populateElements()
+    {
+    console.log("Triggered on change");
+
+    var temapltesElement = document.getElementById("settings-templates");
+    console.log("temapltesElement " + temapltesElement);
+    var elementId = temapltesElement.options[temapltesElement.selectedIndex].value;
+    console.log("elementId " + elementId);
+
+    $.ajax({
+    'type': 'post',
+    'contentType': 'application/x-www-form-urlencoded; charset=UTF-8',
+    'cache': false,
+    'url': '{{ cpUrl('get-elements') }}/' + elementId,
+    'dataType': 'json',
+    'timeout': 50000000
+    }).done(function (data) {
+    clearAllElemenetsById("settings-elements");
+    addToElemenets(data['elements'], data['fields']);
+
+    }).error(function (jqXHR, textStatus, errorThrown) {
+    console.log(jQuery.parseJSON(jqXHR.responseText));
+    alert("Something went wrong: " + jQuery.parseJSON(jqXHR.responseText)['error']['message']);
+    });
+    }
+
+    function addToElemenets(elements) {
+
+    for(var i=0; i < elements.length; i++) {
+
+    var $newWrapper = $("<div id='element'></div>");
+    var $newOptionWrapper = $("<select class='settings-fields' id='"+elements[i].name+"'></select>");
+
+    var $newOption = $("<option>Select Caft's Section</option>");
+    $newOptionWrapper.append($newOption);
+
+    var $newLabel = $("<label id='element'>"+elements[i].label+"</label>");
+
+    $newWrapper.append($newLabel);
+    $newWrapper.append($newOptionWrapper);
+
+    $("#settings-elements").append($newWrapper);
+    }
+    }
+
+    function populateTemplates()
+    {
+    console.log("Triggered on change");
+
+    var projectsElement = document.getElementById("settings-projects");
+    console.log("projectsElement " + projectsElement);
+    var projectId = projectsElement.options[projectsElement.selectedIndex].value;
+    console.log("projectId " + projectId);
+
+    $.ajax({
+    'type': 'post',
+    'contentType': 'application/x-www-form-urlencoded; charset=UTF-8',
+    'cache': false,
+    'url': '{{ cpUrl('get-templates') }}/' + projectId,
+    'dataType': 'json',
+    'timeout': 50000000
+    }).done(function (data) {
+    clearAllOptionsById("settings-templates");
+    clearAllOptionsById("settings-sections");
+    addToTemplates(data['templates']);
+    addToSections(data['sections']);
+
+    }).error(function (jqXHR, textStatus, errorThrown) {
+    console.log(jQuery.parseJSON(jqXHR.responseText));
+    alert("Something went wrong: " + jQuery.parseJSON(jqXHR.responseText)['error']['message']);
+    });
+    }
+
+    function addToTemplates(templates) {
+    $select = $("#settings-templates");
+    for(var i=0; i < templates.length; i++) {
+    var $newOption = $("<option value='"+templates[i].id+"'>"+ templates[i].name +"</option>");
+    $select.append($newOption);
+    }
+    }
+
+    function addToSections(sections) {
+    $select = $("#settings-sections");
+    for(var i=0; i < sections.length; i++) {
+    var $newOption = $("<option value='"+sections[i].id+"'>"+ sections[i].name +"</option>");
+    $select.append($newOption);
+    }
+    }
+
+    function populateProjects()
+    {
+    $.ajax({
+    'type': 'post',
+    'contentType': 'application/x-www-form-urlencoded; charset=UTF-8',
+    'cache': false,
+    'url': '{{ cpUrl('get-projects') }}',
+    'dataType': 'json',
+    'timeout': 50000000
+    }).done(function (data) {
+    addToProjects(data['projects']);
+
+    }).error(function (jqXHR, textStatus, errorThrown) {
+    console.log(jQuery.parseJSON(jqXHR.responseText));
+    alert("Something went wrong: " + jQuery.parseJSON(jqXHR.responseText)['error']['message']);
+    });
+    }
+
+    function addToProjects(projects) {
+    $select = $("#settings-projects");
+
+    for(var i=0; i < projects.length; i++) {
+    var $newOption = $("<option value='"+projects[i].id+"'>"+ projects[i].name +"</option>");
+    $select.append($newOption);
+    }
+
+    }
+
+    function clearAllOptionsById(selectId) {
+    document.getElementById(selectId).options.length = 0;
+    }
+
+    function clearAllOptionsByClass(selectClass) {
+    $('.'+selectClass).empty();
+    }
+
+    function clearAllElemenetsById(elementId) {
+    $( "#"+elementId ).empty();
+    }
+
+
+{% endset %}
+
+{% includeJs myJs %}

@@ -1,0 +1,19 @@
+{#
+/**
+ * gathercontent plugin for Craft CMS
+ *
+ * Test Widget Body
+ *
+ * @author    Solspace
+ * @copyright Copyright (c) 2017 Solspace
+ * @link      http://solspace.com
+ * @package   Gathercontent
+ * @since     1
+ */
+#}
+
+{% set iconUrl = view.getAssetManager().getPublishedUrl('@gathercontent/gathercontent/assetbundles/testwidget/dist', true) ~ '/img/Test-icon.svg' %}
+
+<img src="{{ iconUrl }}" height="64" width="64" />
+
+<p>{{ message }}</p>

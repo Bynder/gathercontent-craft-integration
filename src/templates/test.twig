@@ -1,0 +1,45 @@
+{#
+/**
+ * gathercontent plugin for Craft CMS 3.x
+ *
+ * gathercontent index.twig
+ *
+ * @author    Solspace
+ * @copyright Copyright (c) 2017 Solspace
+ * @link      http://solspace.com
+ * @package   Gathercontent
+ * @since     1
+ */
+#}
+
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("gathercontent\\gathercontent\\assetbundles\\gathercontent\\GathercontentAsset") %}
+{% do view.registerAssetBundle("gathercontent\\gathercontent\\assetbundles\\testcpsection\\TestCPSectionAsset") %}
+
+{# Link for the ? icon at the bottom of the page #}
+{% set docsUrl = "???" %}
+
+{# The title of this CP section #}
+{% set title = "gathercontent" %}
+
+{# The URL to this plugin's base CP section #}
+{% set pluginCpUrl = url('gathercontent') %}
+
+{# Get a URL to an image in our AssetBundle #}
+{% set iconUrl = view.getAssetManager().getPublishedUrl('@gathercontent/gathercontent/assetbundles/testcpsection/dist', true) ~ '/img/Test-icon.svg' %}
+
+{# Content that should appear in the page header#}
+{% set extraPageHeaderHtml %}
+    <div class="buttons">
+        <a href="{{ pluginCpUrl }}" class="btn submit add icon">{{ "Click Me!"|t }}</a>
+    </div>
+{% endset %}
+
+{# The content of the CP Section#}
+{% set content %}
+    <h2>{{ "Test CP Section body goes here" |t }}</h2>
+    <img src="{{ iconUrl }}" height="64" width="64" />
+    <p class="textline"></p>
+{% endset %}

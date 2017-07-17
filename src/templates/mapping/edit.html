@@ -1,0 +1,247 @@
+{% extends "gatherContent/_layouts/main" %}
+{% import "_includes/forms" as forms %}
+{% do view.registerAssetBundle("gathercontent\\gathercontent\\assetbundles\\gathercontent\\GathercontentAsset") %}
+
+{% set crumbs = [
+{ label: "GatherContent"|t, url: url('gatherContent')  },
+{ label: "Mappings"|t, url:  url('gatherContent/mapping/index')  },
+{ label: "Create new mapping"|t, url: '' },
+] %}
+
+{% set fullPageForm %}
+    <form method="post" accept-charset="UTF-8" data-saveshortcut="1">
+{% endset %}
+
+{% block saveButton %}
+    <div class="buttons">
+        <div class="btngroup submit">
+            <input type="submit" class="btn submit" value="{{ 'Save'|t }}">
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+
+    <script>
+        var accountsUrl = '{{ cpUrl('get-accounts') }}';
+        var integrateUrl = '{{ cpUrl('integrate') }}';
+        var entryTypesUrl = '{{ cpUrl('get-entry-types') }}';
+        var fieldsUrl = '{{ cpUrl('get-fields') }}';
+        var elementsUrl = '{{ cpUrl('get-elements') }}';
+        var templatesUrl = '{{ cpUrl('get-templates') }}';
+        var projectsUrl = '{{ cpUrl('get-projects') }}';
+        var sectionsUrl = '{{ cpUrl('get-sections') }}';
+        var validateElementUrl = '{{ cpUrl('validate-element-type') }}';
+        var validateApiCredentialsUrl = '{{ cpUrl('validate-credentials') }}';
+        window.csrfTokenValue = "{{ craft.app.request.csrfToken }}";
+        var isEdit = '{{isEdit}}';
+    </script>
+
+    <div class="pane">
+        <div id="content" class="content">
+            <div class="body">
+
+                {{ csrfInput() }}
+
+                <div class="input ltr">
+                    <table class="data fullwidth">
+                        <thead>
+                        <tr>
+                            <th scope="col" style="width: 50%">GatherContent</th>
+                            <th scope="col" style="width: 50%">Craft CMS</th>
+                        </tr></thead>
+                        <tbody>
+                        <tr>
+                            <td class="topalign">
+                                {{ forms.selectField({
+                                first: true,
+                                label: "GatherContent Account"|t,
+                                id: 'gatherContentAccountId',
+                                name: 'gatherContentAccountId',
+                                value: form.gatherContentAccountId,
+                                errors: form.getErrors('gatherContentAccountId'),
+                                options: accountOptions,
+                                }) }}
+
+                            </td>
+
+                            <td class="topalign">
+
+                                {{ forms.selectField({
+                                first: true,
+                                label: "Craft Section"|t,
+                                id: 'craftSectionId',
+                                name: 'craftSectionId',
+                                value: form.craftSectionId,
+                                errors: form.getErrors('craftSectionId'),
+                                options: sectionOptions,
+                                }) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="topalign">
+
+                                {{ forms.selectField({
+                                first: false,
+                                label: "GatherContent Project"|t,
+                                id: 'gatherContentProjectId',
+                                name: 'gatherContentProjectId',
+                                value: form.gatherContentProjectId,
+                                errors: form.getErrors('gatherContentProjectId'),
+                                options: projectOptions,
+                                }) }}
+
+                            </td>
+
+
+
+                            <td class="topalign" id="craftEntryTypeId-wrapper">
+
+                                {{ forms.selectField({
+                                first: true,
+                                label: "Craft Entry Type"|t,
+                                id: 'craftEntryTypeId',
+                                name: 'craftEntryTypeId',
+                                value: form.craftEntryTypeId,
+                                errors: form.getErrors('craftEntryTypeId'),
+                                options: entryTypeOptions,
+                                }) }}
+
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="topalign" id="gatherContentTemplateId-wrapper">
+
+                                {{ forms.selectField({
+                                first: true,
+                                label: "GatherContent Template"|t,
+                                id: 'gatherContentTemplateId',
+                                name: 'gatherContentTemplateId',
+                                value: form.gatherContentTemplateId,
+                                errors: form.getErrors('gatherContentTemplateId'),
+                                options: templateOptions,
+                                }) }}
+
+                            </td>
+
+
+                            <td class="topalign" id="craftStatus-wrapper">
+
+                                {{ forms.selectField({
+                                first: true,
+                                label: "Craft Status"|t,
+                                id: 'craftStatus',
+                                name: 'craftStatus',
+                                value: form.craftStatus,
+                                errors: form.getErrors('craftStatus'),
+                                options: craftStatuses,
+                                }) }}
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    {% if isEdit and mainValidation %}
+                        <table class="data fullwidth" id="elements-wrapper">
+                    {% else %}
+                        <table class="data fullwidth" id="elements-wrapper" style="display: none; margin-top: 10px">
+                    {% endif %}
+
+                        <thead>
+                        <tr>
+                            <th scope="col">Field Map</th>
+                        </tr></thead>
+                        <tbody>
+                        <tr>
+                            <td class="topalign">
+
+                                <div class="topalign" id="tabs">
+
+                                    {% set isFirstTab = true %}
+
+                                    {% for tab in tabOptions %}
+                                    <div class="tab-wrapper" id="tab-{{ tab['id'] }}">
+
+                                        {% if isFirstTab %}
+                                            <a class="accordion-section-title active" href="#accordion-{{tab['id']}}">{{ tab['title'] }}</a>
+                                            <div id="accordion-{{tab['id']}}" class="accordion-section-content open" style="display: block">
+                                            {% set isFirstTab = false %}
+                                        {% else %}
+                                            <a class="accordion-section-title" href="#accordion-{{tab['id']}}">{{ tab['title'] }}</a>
+                                            <div id="accordion-{{tab['id']}}" class="accordion-section-content">
+                                        {% endif %}
+
+                                            {% for element in tab['elements'] %}
+                                            <div class="field first elements-field clearfix"
+                                                 id="elements-field-{{element['name']}}">
+                                                <div class="element-heading"><label class="element-label" id="elements-label"
+                                                                            for="elements[undefined]">{{ element['label']}}<a
+                                                        class="seperator">→</a></label></div>
+                                                <div class="input ltr">
+                                                    <div class="select"><select class="elements-select" id="{{element['name']}}"
+                                                                                name="tabs[{{ tab['id'] }}][elements][{{element['name']}}]">
+                                                        {% set mappingField = form.getFieldByTabAndElement(tab['id'], element['name']) %}
+
+
+                                                        {% if form.tabs %}
+                                                            <option value="null">Dont Map</option>
+                                                            {% for field in element['fields'] %}
+                                                            {% if form.tabs[tab['id']]['elements'][element['name']] == field['value'] %}
+                                                            <option selected value="{{field['value']}}">{{ field['label'] }}</option>
+                                                            {% else %}
+                                                            <option value="{{field['value']}}">{{ field['label'] }}</option>
+                                                            {% endif %}
+                                                            {% endfor %}
+                                                        {% elseif element['fields'] and mappingField %}
+                                                            <option value="null">Dont Map</option>
+                                                            {% for field in element['fields'] %}
+                                                                {% if mappingField['craftFieldHandle'] == field['value'] %}
+                                                                    <option selected value="{{field['value']}}">{{ field['label'] }}</option>
+                                                                {% else %}
+                                                                    <option value="{{field['value']}}">{{ field['label'] }}</option>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            <option value="null">Dont Map</option>
+                                                            {% for field in element['fields'] %}
+                                                                <option value="{{field['value']}}">{{ field['label'] }}</option>
+                                                            {% endfor %}
+                                                        {% endif %}
+
+                                                    </select></div>
+                                                    <div class="error" id="element-error-{{element['name']}}">
+                                                        {% if elementErrors[element['name']] is defined %}
+                                                            {{ elementErrors[element['name']] }}
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+
+                                        </div>
+
+                                    </div>
+                                    {% endfor %}
+
+
+                                </div>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="centeralign" style=" margin-top:15px">
+            <a target="_blank" style="display: inline-block; margin: 5px 0; font-size: 24px;" class="help" id="help" href="http://help.gathercontent.com/importing-and-exporting-content/craft-integration/"></a>
+        </div>
+    </div>
+    </form>
+
+{% endblock %}

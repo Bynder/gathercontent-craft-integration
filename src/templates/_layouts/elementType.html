@@ -1,0 +1,12 @@
+{% extends "_layouts/elementindex" %}
+{% hook "gatherContent.prepareCpTemplate" %}
+
+{% set extraPageHeaderHtml %}
+
+        <div class="buttons">
+            <a class="btn submit add icon" href="{{ url('gatherContent/forms/new/') }}">
+                {{ "New Form"|t }}
+            </a>
+        </div>
+
+{% endset %}

@@ -1,0 +1,38 @@
+{% extends "gatherContent/_layouts/settings" %}
+
+{% import "_includes/forms" as forms %}
+
+{% block content %}
+
+    <h2>{{ "General Settings"|t }}</h2>
+
+    <form action="" method="post" accept-charset="UTF-8">
+        <input type="hidden" name="action" value="gatherContent/settings/saveSettings">
+        <input type="hidden" name="redirect" value="gatherContent/settings/general">
+
+        {{ getCsrfInput() }}
+
+        {{ forms.textField({
+        label: "gatherContent API Key"|t,
+        id: 'gatherContentApiKey',
+        name: 'settings[gatherContentApiKey]',
+        instructions: "Your gatherContent api key"|t,
+        value: settings.gatherContentApiKey,
+        errors: settings.getErrors('gatherContentApiKey')
+        })
+        }}
+
+        {{ forms.textField({
+        label: "gatherContent service ID"|t,
+        id: 'serviceId',
+        name: 'settings[serviceId]',
+        instructions: "Your gatherContent service ID"|t,
+        value: settings.serviceId,
+        errors: settings.getErrors('serviceId')
+        })
+        }}
+
+        <input type="submit" class="btn submit" value="{{ "Save"|t }}">
+    </form>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{#
+/**
+ * gathercontent plugin for Craft CMS
+ *
+ * Test Widget Settings
+ *
+ * @author    Solspace
+ * @copyright Copyright (c) 2017 Solspace
+ * @link      http://solspace.com
+ * @package   Gathercontent
+ * @since     1
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("gathercontent\\gathercontent\\assetbundles\\gathercontent\\GathercontentAsset") %}
+
+{{ forms.textField({
+    label: 'Message',
+    instructions: 'Enter a message here.',
+    id: 'message',
+    name: 'message',
+    value: widget['message']})
+}}

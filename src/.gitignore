@@ -1,0 +1,6 @@
+vendor/
+# exclude everything
+temp-files/*
+
+# exception to the rule
+!temp-files/.gitkeep

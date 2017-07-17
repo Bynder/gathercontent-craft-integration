@@ -1,0 +1,157 @@
+{% extends "gatherContent/_layouts/main" %}
+{% hook "gatherContent.prepareCpTemplate" %}
+{% do view.registerAssetBundle("gathercontent\\gathercontent\\assetbundles\\gathercontent\\GathercontentAsset") %}
+
+{% set selectedSubnavItem = "mapping" %}
+
+{% set extraPageHeaderHtml %}
+
+<div class="buttons" style="margin-bottom: 0">
+
+    {% if isValidApiUser %}
+    <div id="migration-loader" style="margin-top: 0; margin-right:5px" class="spinner loadingmore hidden"></div>
+    <a onclick="integrate(null)" class="btn submit loading">
+    {{ "Run all migrations "|t }}
+    </a>
+    <a class="btn submit loading" href="{{ url('gatherContent/mapping/new/') }}">
+        {{ "Create new mapping "|t }}
+    </a>
+    {% endif %}
+
+</div>
+
+<!--<div id="migrating-bar">-->
+    <!--<div id="myProgress">-->
+        <!--<div id="myBar">-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+{% endset %}
+
+{% set title = "GatherContent: Mapping" %}
+
+{% set content %}
+
+<script>
+    var switchMappingUrl = '{{ cpUrl('switch-mapping') }}';
+    var migrationFinishedUrl = '{{ cpUrl('migration-finished') }}';
+    var integrateUrl = '{{ cpUrl('integrate') }}';
+    var allMappingsUrl = '{{ cpUrl('get-all-mappings') }}';
+    window.csrfTokenValue = "{{ craft.app.request.csrfToken }}";
+</script>
+
+<div id="nomapping" {% if mappings %} class="hidden" {% endif %}>
+    {% if isValidApiUser %}
+    <p>You have no mappings. <a href="{{ url('gatherContent/mapping/new/') }}">{{ "Create your first mapping "|t }}</a></p>
+    {% else %}
+    <p class="warning"><span data-icon="alert"></span>{{ "Valid API User is not set. Please set it in "|t }}<a href="/admin/settings/plugins/gathercontent">Settings</a></p>
+    {% endif %}
+</div>
+
+{% if mappings|length %}
+<table id="mappings" class="data fullwidth collapsible">
+    <thead>
+    <th scope="col"><a href="{{ sortUrls['gatherContentProjectName'] }}">{{ "GatherContent Project"|t }}</a></th>
+    <th scope="col"><a href="{{ sortUrls['gatherContentTemplateName'] }}">{{ "GatherContent Template"|t }}</a></th>
+    <th scope="col"><a href="{{ sortUrls['entryTypeName'] }}">{{ "Craft Entry Type"|t }}</a></th>
+    <th scope="col"><a href="{{ sortUrls['lastImportTimestamp'] }}">{{ "Last Time Migrated"|t }}</a></th>
+    <th scope="col">{{ "Details"|t }}</th>
+    <th scope="col"></th>
+    <td class="thin">Active</td>
+    </thead>
+    <tbody>
+
+    {% for mapping in mappings %}
+        {% set trClass = 'active-tr' %}
+    {% if mapping.deactive %}
+        {% set trClass  = 'deactive-tr' %}
+    {% endif %}
+
+    {% set entryTypeUrl = mapping.entryTypeUrl %}
+
+    <tr id="mapping-row-{{mapping.id}}" data-id="{{ mapping.id }}" data-name="{{ mapping.gatherContentProjectId|t }}" class="{{trClass}}">
+        <td data-title="{{ 'Template'|t }}">
+            {{ mapping.gatherContentProjectName }}
+        </td>
+        <td data-title="{{ 'Template'|t }}">
+            <a href="{{ url('gatherContent/mapping/edit') }}/{{ mapping.id}}">
+                {{ mapping.gatherContentTemplateName }}
+            </a>
+        </td>
+        <td data-title="{{ 'Entry Type'|t }}">
+            <a href="{{entryTypeUrl}}">
+                {{ mapping.entryType.name }}
+            </a>
+        </td>
+        <td data-title="{{ 'Last Time Migrated'|t }}">
+            {{ mapping.lastImportTimestamp|date("Y-m-d H:i:s") }}
+        </td>
+        <td data-title="{{ 'Details'|t }}">
+            <a href="{{ url('gatherContent/mapping/template') }}/{{ mapping.gatherContentTemplateId}}">
+                {{templateItemsCounts[mapping.gatherContentTemplateId]}} Items
+            </a>
+        </td>
+        <td data-title="{{ 'Migrate'|t }}">
+            {% if mapping.deactive %}
+            <div class="element small hasstatus" id="migrating-migrate-button-{{mapping.id}}" style="display: none;">
+            {% else %}
+            <div class="element small hasstatus" id="migrating-migrate-button-{{mapping.id}}">
+            {% endif %}
+                {% if mapping.migrating %}
+                <span id="migrating-status-{{ mapping.gatherContentTemplateId }}" class="status live"></span>
+                    <div class="label"><span class="title">
+                        <a class="migrating-migrate-button" id="migrating-migrate-button-{{mapping.id}}" onclick="integrate({{mapping.gatherContentTemplateId}})">
+                            {{ "Migrating "|t }}
+                        </a>
+                        <span id="migrating-batches-{{ mapping.gatherContentTemplateId }}"></span>
+                    </div>
+                {% else %}
+                    <span id="migrating-status-{{ mapping.gatherContentTemplateId }}" class="status light"></span>
+                    <div class="label"><span class="title">
+                            <a class="migrating-migrate-button" id="migrating-migrate-button-{{mapping.id}}" onclick="integrate({{mapping.gatherContentTemplateId}})">
+                                {{ "Migrate "|t }}
+                            </a>
+                         <span id="migrating-batches-{{ mapping.gatherContentTemplateId }}"></span>
+                    </div>
+                {% endif %}
+            </div>
+        </td>
+        <td class="thin">
+        {% if not mapping.deactive %}
+
+            <div id="switch-mappings" class="lightswitch fieldtoggle on" tabindex="0" data-value="{{mapping.id}}" aria-labelledby="label1402516563" data-target="url-field" role="checkbox" aria-checked="true">
+                <div class="lightswitch-container" style="margin-left: 0px;">
+                    <div class="label on"></div>
+                    <div class="handle"></div>
+                    <div class="label off"></div>
+                </div>
+                <input type="hidden" name="hasUrls" value="1">
+            </div>
+
+            <!--<a  href="{{ url('gatherContent/mapping/activate/') }}/{{ mapping.id}}" class="bug icon" title="Activate" role="button"><span data-icon="check"></span></a>-->
+
+            {% else %}
+
+                <div id="switch-mappings" class="lightswitch fieldtoggle" tabindex="0" data-value="{{mapping.id}}" aria-labelledby="label1402516563" data-target="url-field" role="checkbox" aria-checked="false">
+                    <div class="lightswitch-container">
+                        <div class="label on"></div>
+                        <div class="handle"></div>
+                        <div class="label off"></div>
+                    </div>
+                    <input type="hidden" name="hasUrls" value="">
+                </div>
+
+                <!--<a  href="{{ url('gatherContent/mapping/delete/') }}/{{ mapping.id}}" class="delete icon" title="Deactivate" role="button"></a>-->
+
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+<div class="centeralign" style=" margin-top:15px">
+    <a target="_blank" style="display: inline-block; margin: 5px 0; font-size: 24px;" class="help" id="help" href="http://help.gathercontent.com/importing-and-exporting-content/craft-integration/"></a>
+</div>
+{% endset %}

@@ -1,0 +1,47 @@
+{#
+/**
+ * gathercontent plugin for Craft CMS 3.x
+ *
+ * gathercontent Settings.twig
+ *
+ * @author    Solspace
+ * @copyright Copyright (c) 2017 Solspace
+ * @link      http://solspace.com
+ * @package   Gathercontent
+ * @since     1
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("gathercontent\\gathercontent\\assetbundles\\gathercontent\\GathercontentAsset") %}
+
+<script>
+    var validateApiCredentialsUrl = '{{ cpUrl('validate-credentials') }}';
+    var isEdit = false;
+    window.csrfTokenValue = "{{ craft.request.getCsrfToken }}";
+</script>
+
+{{ forms.textField({
+    label: 'GatherContent Email Address',
+    id: 'username',
+    name: 'username',
+    value: settings['username'],
+    errors: settings.getErrors('username')})
+}}
+
+{{ forms.textField({
+    label: 'GatherContent Api Key',
+    id: 'apiKey',
+    name: 'apiKey',
+    value: settings['apiKey'],
+    errors: settings.getErrors('apiKey')})
+}}
+
+{{ forms.textField({
+    label: 'Assets Volume Handle',
+    id: 'volumeHandle',
+    name: 'volumeHandle',
+    value: settings['volumeHandle'],
+    errors: settings.getErrors('volumeHandle')})
+}}

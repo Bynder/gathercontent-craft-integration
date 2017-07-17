@@ -1,0 +1,61 @@
+{% extends "gatherContent/_layouts/main" %}
+{% hook "gatherContent.prepareCpTemplate" %}
+
+{% set crumbs = [
+{ label: "GatherContent"|t, url: url('gatherContent')  },
+{ label: "Mappings"|t, url:  url('gatherContent/mapping/index')  },
+{ label: "Migration"|t, url: '' },
+] %}
+
+{% set selectedSubnavItem = "mapping" %}
+
+{% set content %}
+
+<div id="nomapping" {% if migration %} class="hidden" {% endif %}>
+    {% if isValidApiUser %}
+    <p>{{ "No Mappings found"|t }}</p>
+    {% else %}
+    <p class="warning"><span data-icon="alert"></span>{{ "Valid API User is not set. Please set it in "|t }}<a href="/admin/settings/plugins/gathercontent">Settings</a></p>
+    {% endif %}
+</div>
+
+{% if items|length %}
+<table id="items" class="data fullwidth collapsible">
+    <thead>
+    <th scope="col">{{ "Entry Title"|t }}</th>
+    <th scope="col">{{ "GC Template"|t }}</th>
+    <th scope="col"></th>
+    </thead>
+    <tbody>
+
+    {% set template = '' %}
+
+    {% for item in items %}
+
+    {% set entryModel = item.relationship.entry %}
+    {% set newTemplate = item.mapping.gatherContentTemplateName %}
+
+
+    <tr data-id="{{ item.id }}" data-name="{{ item.id|t }}">
+        <td data-title="{{ 'Template'|t }}">
+            <a target="_blank" href="{{item.relationship.entryUrl}}">
+                {{ entryModel.title}}
+            </a>
+        </td>
+        <td data-title="{{ 'Template'|t }}">
+            {{ newTemplate }}
+        </td>
+        <td target="_blank" data-title="{{ 'Template'|t }}">
+            <a target="_blank" href="{{item.itemUrl}}">
+                View in GC
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div class="centeralign" style=" margin-top:15px">
+    <a target="_blank" style="display: inline-block; margin: 5px 0; font-size: 24px;" class="help" id="help" href="http://help.gathercontent.com/importing-and-exporting-content/craft-integration/"></a>
+</div>
+{% endif %}
+{% endset %}

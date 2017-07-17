@@ -1,0 +1,75 @@
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.element-label {
+    float: left;
+    input-float: right;
+    margin-top: 5px;
+}
+
+.seperator {
+    margin-top: 5px;
+    margin-right: 10px;
+    margin-left: 10px;
+    color: #e3e5e8;
+}
+
+.tab-wrapper {
+    margin-top: 10px;
+    border: 1px solid #e3e5e8;
+    padding: 10px;
+}
+
+#migrating-bar{
+    display: none;
+    width: 100%;
+}
+
+#migrating-bar-value{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#migrating-bar-value-batches{
+}
+
+.elements-error{
+    float: left;
+    input-float: right;
+}
+
+.active-tr{
+
+}
+
+.deactive-tr{
+    color: lightgray;
+}
+
+#myProgress {
+    width: 100%;
+    background-color: #ddd;
+}
+
+#myBar {
+    width: 0%;
+    height: 30px;
+    background-color: #da5a47;
+}
+
+.element-label {
+    min-width: 15%;
+    text-align: left;
+    margin-top: 6px;
+    font-weight: bold;
+}
+
+.elements-field {
+}
+
+.element-heading{
+    margin: 0;
+}

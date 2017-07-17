@@ -1,0 +1,27 @@
+{% extends "gatherContent/_layouts/settings" %}
+
+{% import "_includes/forms" as forms %}
+
+{% block content %}
+
+    <h2>{{ "License"|t }}</h2>
+
+    <form action="" method="post" accept-charset="UTF-8">
+        <input type="hidden" name="action" value="freeform/settings/saveSettings">
+        <input type="hidden" name="redirect" value="freeform/settings/license">
+        {{ getCsrfInput() }}
+
+
+        {{ forms.textField({
+            label: "License Key"|t,
+            instructions: "Enter your gatherContent license key here."|t,
+            id: 'license',
+            name: 'settings[license]',
+            value: settings.license,
+            errors: settings.getErrors('license')
+        }) }}
+
+        <input type="submit" class="btn submit" value="{{ "Save"|t }}">
+    </form>
+
+{% endblock %}

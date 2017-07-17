@@ -1,0 +1,23 @@
+{#
+/**
+ * gathercontent plugin for Craft CMS
+ *
+ * Test Utility Content
+ *
+ * @author    Solspace
+ * @copyright Copyright (c) 2017 Solspace
+ * @link      http://solspace.com
+ * @package   Gathercontent
+ * @since     1
+ */
+#}
+
+<h1>Test</h1>
+
+{% set iconUrl = view.getAssetManager().getPublishedUrl('@gathercontent/gathercontent/assetbundles/testutility/dist', true) ~ '/img/Test-icon.svg' %}
+
+<img src="{{ iconUrl }}" height="64" width="64" />
+
+<p>Your Utility content goes here</p>
+
+<p>{{ someVar }}</p>
