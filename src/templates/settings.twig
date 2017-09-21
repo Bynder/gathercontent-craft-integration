@@ -19,7 +19,7 @@
 <script>
     var validateApiCredentialsUrl = '{{ cpUrl('validate-credentials') }}';
     var isEdit = false;
-    window.csrfTokenValue = "{{ craft.request.getCsrfToken }}";
+    window.csrfTokenValue = "{{ craft.app.request.csrfToken  }}";
 </script>
 
 {{ forms.textField({
