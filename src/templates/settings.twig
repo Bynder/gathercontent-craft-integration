@@ -17,9 +17,23 @@
 {% do view.registerAssetBundle("gathercontent\\gathercontent\\assetbundles\\gathercontent\\GathercontentAsset") %}
 
 <script>
-    var validateApiCredentialsUrl = '{{ cpUrl('validate-credentials') }}';
+    var validateApiCredentialsUrl = '{{ cpUrl('gatherContent/api/validate-credentials') }}';
+    var accountsUrl = '{{ cpUrl('gatherContent/api/get-accounts') }}';
+    var integrateUrl = '{{ cpUrl('gatherContent/api/integrate') }}';
+    var entryTypesUrl = '{{ cpUrl('gatherContent/api/get-entry-types') }}';
+    var fieldsUrl = '{{ cpUrl('gatherContent/api/get-fields') }}';
+    var elementsUrl = '{{ cpUrl('gatherContent/api/get-elements') }}';
+    var templatesUrl = '{{ cpUrl('gatherContent/api/get-templates') }}';
+    var projectsUrl = '{{ cpUrl('gatherContent/api/get-projects') }}';
+    var sectionsUrl = '{{ cpUrl('gatherContent/api/get-sections') }}';
+    var validateElementUrl = '{{ cpUrl('gatherContent/api/validate-element-type') }}';
+    var switchMappingUrl = '{{ cpUrl('gatherContent/api/switch-mapping') }}';
+    var migrationFinishedUrl = '{{ cpUrl('gatherContent/api/migration-finished') }}';
+    var allMappingsUrl = '{{ cpUrl('gatherContent/api/get-all-mappings') }}';
+
+    window.csrfTokenValue = "{{ craft.app.request.csrfToken }}";
+    window.dontAssignEvenets = true;
     var isEdit = false;
-    window.csrfTokenValue = "{{ craft.request.getCsrfToken }}";
 </script>
 
 {{ forms.textField({

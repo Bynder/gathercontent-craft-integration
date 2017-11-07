@@ -31,7 +31,7 @@ function apiValidate(force)
         return true;
     }
 
-    if (email !== '' && key !== '') {
+    if (email !== undefined && key !== undefined && email !== '' && key !== '') {
         callApiValidation(key, email);
     }
 }
@@ -41,6 +41,13 @@ function callApiValidation(key, email) {
     var emailElement = $('#settings-username');
     var keyElement = $('#settings-apiKey');
 
+    var postData = {
+        'email': email,
+        'key': key
+    };
+
+    postData[Craft.csrfTokenName] = window.csrfTokenValue;
+
     $.ajax({
         'type': 'post',
         'contentType': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -48,11 +55,7 @@ function callApiValidation(key, email) {
         'url': validateApiCredentialsUrl,
         'dataType': 'json',
         'timeout': 50000000,
-        data: {
-            'CRAFT_CSRF_TOKEN': window.csrfTokenValue,
-            'email': email,
-            'key': key
-        }
+        data: postData
     }).done(function (data) {
 
         if (data.success === true) {

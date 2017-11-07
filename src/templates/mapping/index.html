@@ -34,10 +34,20 @@
 {% set content %}
 
 <script>
-    var switchMappingUrl = '{{ cpUrl('switch-mapping') }}';
-    var migrationFinishedUrl = '{{ cpUrl('migration-finished') }}';
-    var integrateUrl = '{{ cpUrl('integrate') }}';
-    var allMappingsUrl = '{{ cpUrl('get-all-mappings') }}';
+    var accountsUrl = '{{ cpUrl('gatherContent/api/get-accounts') }}';
+    var integrateUrl = '{{ cpUrl('gatherContent/api/integrate') }}';
+    var entryTypesUrl = '{{ cpUrl('gatherContent/api/get-entry-types') }}';
+    var fieldsUrl = '{{ cpUrl('gatherContent/api/get-fields') }}';
+    var elementsUrl = '{{ cpUrl('gatherContent/api/get-elements') }}';
+    var templatesUrl = '{{ cpUrl('gatherContent/api/get-templates') }}';
+    var projectsUrl = '{{ cpUrl('gatherContent/api/get-projects') }}';
+    var sectionsUrl = '{{ cpUrl('gatherContent/api/get-sections') }}';
+    var validateElementUrl = '{{ cpUrl('gatherContent/api/validate-element-type') }}';
+    var validateApiCredentialsUrl = '{{ cpUrl('gatherContent/api/validate-credentials') }}';
+    var switchMappingUrl = '{{ cpUrl('gatherContent/api/switch-mapping') }}';
+    var migrationFinishedUrl = '{{ cpUrl('gatherContent/api/migration-finished') }}';
+    var allMappingsUrl = '{{ cpUrl('gatherContent/api/get-all-mappings') }}';
+
     window.csrfTokenValue = "{{ craft.app.request.csrfToken }}";
 </script>
 

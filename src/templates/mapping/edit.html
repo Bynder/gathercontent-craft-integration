@@ -23,16 +23,16 @@
 {% block main %}
 
     <script>
-        var accountsUrl = '{{ cpUrl('get-accounts') }}';
-        var integrateUrl = '{{ cpUrl('integrate') }}';
-        var entryTypesUrl = '{{ cpUrl('get-entry-types') }}';
-        var fieldsUrl = '{{ cpUrl('get-fields') }}';
-        var elementsUrl = '{{ cpUrl('get-elements') }}';
-        var templatesUrl = '{{ cpUrl('get-templates') }}';
-        var projectsUrl = '{{ cpUrl('get-projects') }}';
-        var sectionsUrl = '{{ cpUrl('get-sections') }}';
-        var validateElementUrl = '{{ cpUrl('validate-element-type') }}';
-        var validateApiCredentialsUrl = '{{ cpUrl('validate-credentials') }}';
+        var accountsUrl = '{{ cpUrl('gatherContent/api/get-accounts') }}';
+        var integrateUrl = '{{ cpUrl('gatherContent/api/integrate') }}';
+        var entryTypesUrl = '{{ cpUrl('gatherContent/api/get-entry-types') }}';
+        var fieldsUrl = '{{ cpUrl('gatherContent/api/get-fields') }}';
+        var elementsUrl = '{{ cpUrl('gatherContent/api/get-elements') }}';
+        var templatesUrl = '{{ cpUrl('gatherContent/api/get-templates') }}';
+        var projectsUrl = '{{ cpUrl('gatherContent/api/get-projects') }}';
+        var sectionsUrl = '{{ cpUrl('gatherContent/api/get-sections') }}';
+        var validateElementUrl = '{{ cpUrl('gatherContent/api/validate-element-type') }}';
+        var validateApiCredentialsUrl = '{{ cpUrl('gatherContent/api/validate-credentials') }}';
         window.csrfTokenValue = "{{ craft.app.request.csrfToken }}";
         var isEdit = '{{isEdit}}';
     </script>

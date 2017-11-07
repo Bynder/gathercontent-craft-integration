@@ -21,52 +21,7 @@ class SettingsController extends Controller
      */
     public function actionDefaultView()
     {
-        $this->redirect("fastly/settings/general");
-    }
-
-    /**
-     * Attempt cloning a demo template into the user's specified template directory
-     */
-    public function actionAddDemoTemplate()
-    {
-        PermissionsHelper::requirePermission(PermissionsHelper::PERMISSION_SETTINGS_ACCESS);
-
-        $this->requirePostRequest();
-
-        $errors    = [];
-        $settings  = $this->getSettingsModel();
-        $extension = ".html";
-
-        $templateDirectory = $settings->getAbsoluteFormTemplateDirectory();
-        $templateName      = craft()->request->getPost("templateName", null);
-
-        if (!$templateDirectory) {
-            $errors[] = Craft::t("No custom template directory specified in settings");
-        } else {
-            if ($templateName) {
-                $templateName = StringHelper::toSnakeCase($templateName);
-
-                $templatePath = $templateDirectory . "/" . $templateName . $extension;
-                if (file_exists($templatePath)) {
-                    $errors[] = Craft::t("Template '{name}' already exists", ["name" => $templateName . $extension]);
-                } else {
-                    try {
-                        IOHelper::writeToFile($templatePath, $settings->getDemoTemplateContent());
-                    } catch (FreeformException $exception) {
-                        $errors[] = $exception->getMessage();
-                    }
-                }
-            } else {
-                $errors[] = Craft::t("No template name specified");
-            }
-        }
-
-        $this->returnJson(
-            [
-                "templateName" => $templateName,
-                "errors"       => $errors,
-            ]
-        );
+        $this->redirect("gathercontent/settings/general");
     }
 
     /**
@@ -86,16 +41,6 @@ class SettingsController extends Controller
     }
 
     /**
-     * Renders the General settings page template
-     */
-    public function actionFormattingTemplates()
-    {
-        craft()->templates->includeCssResource("freeform/css/code-pack.css");
-
-        $this->provideTemplate('formatting_templates');
-    }
-
-    /**
      * @throws HttpException
      */
     public function actionSaveSettings()
@@ -103,7 +48,7 @@ class SettingsController extends Controller
         $this->requirePostRequest();
         $postData = craft()->request->getPost('settings', []);
 
-        $plugin = craft()->plugins->getPlugin('fastly');
+        $plugin = craft()->plugins->getPlugin('gathercontent');
         if (craft()->plugins->savePluginSettings($plugin, $postData)) {
             craft()->userSession->setNotice(Craft::t("Settings Saved"));
             $this->redirectToPostedUrl();
@@ -112,31 +57,19 @@ class SettingsController extends Controller
         }
     }
 
-    /**
-     * Determines which template has to be rendered based on $template
-     * Adds a Freeform_SettingsModel to template variables
-     *
-     * @param string $template
-     *
-     * @throws HttpException
-     */
     private function provideTemplate($template)
     {
         $this->renderTemplate(
-            'fastly/settings/_' . $template,
+            'gathercontent/settings/_' . $template,
             [
                 'settings' => $this->getSettingsModel(),
             ]
         );
     }
 
-    /**
-     * @return Freeform_SettingsModel
-     */
     private function getSettingsModel()
     {
-        /** @var Fastly_SettingsService $settingsService */
-        $settingsService = craft()->fastly_settings;
+        $settingsService = craft()->gathercontent_settings;
 
         return $settingsService->getSettingsModel();
     }

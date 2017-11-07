@@ -1,37 +1,18 @@
-# gathercontent plugin for Craft CMS 3.x
-
-gathercontent
+Gather Content: Craft 3 Integration
 
 ![Screenshot](resources/img/plugin-logo.png)
 
 ## Installation
 
-To install gathercontent, follow these steps:
+[Insallation Instructions](http://help.gathercontent.com/importing-and-exporting-content/craft-integration/craft-integration-installation)
 
-1. Download & unzip the file and place the `gathercontent` directory into your `craft/plugins` directory
-2.  -OR- do a `git clone ???` directly into your `craft/plugins` folder.  You can then update it with `git pull`
-3.  -OR- install with Composer via `composer require /gathercontent`
-4. Install plugin in the Craft Control Panel under Settings > Plugins
-5. The plugin folder should be named `gathercontent` for Craft to see it.  GitHub recently started appending `-master` (the branch name) to the name of the folder for zip file downloads.
+## Overview
 
-gathercontent works on Craft 3.x.
+Brought to you by GatherContent and Craft CMS, our integration is one of the first for the new Craft 3 CMS. Use our integration to easily migrate approved content into Craft CMS, or use our API to take content anywhere. Automating your migration process with GatherContent means you can eliminate human error and launch your projects on time.
 
-## gathercontent Overview
 
--Insert text here-
+## Using GatherContent
 
-## Configuring gathercontent
-
--Insert text here-
-
-## Using gathercontent
-
--Insert text here-
-
-## gathercontent Roadmap
-
-Some things to do, and ideas for potential features:
-
-* Release it
+[Documentation](http://help.gathercontent.com/importing-and-exporting-content/craft-integration/craft-integration-introduction)
 
 Brought to you by [Solspace](http://solspace.com)

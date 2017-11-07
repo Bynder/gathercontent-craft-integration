@@ -30,9 +30,9 @@
 {% set content %}
 
 <script>
-    var integrateUrl = '{{ cpUrl('integrate') }}';
-    var allMappingsUrl = '{{ cpUrl('get-all-mappings') }}';
-    window.csrfTokenValue = "{{ craft.request.getCsrfToken }}";
+    var integrateUrl = '{{ cpUrl('gatherContent/api/integrate') }}';
+    var allMappingsUrl = '{{ cpUrl('gatherContent/api/get-all-mappings') }}';
+    window.csrfTokenValue = "{{ craft.app.request.csrfToken }}";
 </script>
 
 <div id="nomapping" {% if items %} class="hidden" {% endif %}>

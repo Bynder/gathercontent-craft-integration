@@ -791,15 +791,18 @@ class GatherContent_GatherContentService extends Component
         return true;
     }
 
-    private function getClient()
+    private function createClient($username, $apiKey)
     {
-        $username = $this->settings->username;
-        $apiKey = $this->settings->apiKey;
+        $craftVersion = Craft::$app->getVersion();
+        $pluginVersion = Gathercontent::$plugin->getVersion();
+
+        $userAgent = 'Integration-CraftCMS-'.$craftVersion.'/'.$pluginVersion;
 
         $client = new Client([
             'base_uri' => 'https://api.gathercontent.com',
             'headers' => [
-                'Accept' => 'application/vnd.gathercontent.v0.5+json'
+                'Accept' => 'application/vnd.gathercontent.v0.5+json',
+                'User-Agent' => $userAgent,
             ],
             'auth' => [
                 $username,
@@ -810,18 +813,19 @@ class GatherContent_GatherContentService extends Component
         return $client;
     }
 
+    private function getClient()
+    {
+        $username = $this->settings->username;
+        $apiKey = $this->settings->apiKey;
+
+        $client = $this->createClient($username, $apiKey);
+
+        return $client;
+    }
+
     private function getClientManually($username, $apiKey)
     {
-        $client = new Client([
-            'base_uri' => 'https://api.gathercontent.com',
-            'headers' => [
-                'Accept' => 'application/vnd.gathercontent.v0.5+json'
-            ],
-            'auth' => [
-                $username,
-                $apiKey
-            ]
-        ]);
+        $client = $this->createClient($username, $apiKey);
 
         return $client;
     }

@@ -280,7 +280,7 @@ class MappingController extends Controller
         }
 
 
-        $this->renderTemplate("gatherContent/mapping/edit", [
+        return $this->renderTemplate("gatherContent/mapping/edit", [
             'craftStatuses' => $craftStatuses,
             'mainValidation' => $mainValidation,
             'elementErrors' => $elementErrors,
@@ -349,15 +349,15 @@ class MappingController extends Controller
         return $options;
     }
 
-    private function getProjectsOptions($acountId)
+    private function getProjectsOptions($accountId)
     {
         $options = $this->getDefaultOptions('Select Gather Project');
 
-        if (!$acountId) {
+        if (!$accountId) {
             return $options;
         }
 
-        $rows = $this->gatherContentService->getProjects($acountId);
+        $rows = $this->gatherContentService->getProjects($accountId);
         foreach ($rows as $key => $row) {
             $option = [
                 'value' => $row['id'],

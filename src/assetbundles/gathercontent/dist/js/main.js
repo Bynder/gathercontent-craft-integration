@@ -1,21 +1,26 @@
-document.onload = assignIndividualMigration();
-document.onload = assignClearSearch();
-document.onload = assignSwitchMapping();
-document.onload = assignCheckAll();
+if (window.dontAssignEvenets !== true) {
 
-if (isEdit) {
-    document.onload = assignOnChangeEvenets();
-    document.finished = disableFirstOptions();
-} else {
-    document.onload = setUpFirstRow();
-    document.onload = setUpSecondRow();
-    document.onload = assignOnChangeEvenets();
-    document.onload = populateAccounts();
+    document.onload = assignIndividualMigration();
+    document.onload = assignClearSearch();
+    document.onload = assignSwitchMapping();
+    document.onload = assignCheckAll();
+
+    if (window.isEdit) {
+        isEdit = true;
+        document.onload = assignOnChangeEvenets();
+        document.finished = disableFirstOptions();
+    } else {
+        isEdit = false;
+        document.onload = setUpFirstRow();
+        document.onload = setUpSecondRow();
+        document.onload = assignOnChangeEvenets();
+        document.onload = populateAccounts();
+    }
+
+    var mappingsList;
+
+    document.finished = set_accardion_triggers();
 }
-
-var mappingsList;
-
-document.finished = set_accardion_triggers();
 
 function set_accardion_triggers() {
     $('.accordion-section-title').click(function (e) {
@@ -87,6 +92,9 @@ function switchMapping(element) {
 
     console.log("Triggered on change mapping switch " + mappingId);
 
+    var postData = {};
+    postData[Craft.csrfTokenName] = window.csrfTokenValue;
+
     $.ajax({
         'type': 'post',
         'contentType': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -94,9 +102,7 @@ function switchMapping(element) {
         'url': switchMappingUrl+ '/' + mappingId,
         'dataType': 'json',
         'timeout': 50000000,
-        data: {
-            'CRAFT_CSRF_TOKEN': window.csrfTokenValue
-        }
+        data: postData
     }).done(function (data) {
 
         if (data.success == true) {
@@ -199,6 +205,9 @@ function populateEntryTypes(cb)
     var sectionId = sectionsElement.options[sectionsElement.selectedIndex].value;
     console.log("sectionId " + sectionId);
 
+    var postData = {};
+    postData[Craft.csrfTokenName] = window.csrfTokenValue;
+
     $.ajax({
         'type': 'post',
         'contentType': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -206,9 +215,7 @@ function populateEntryTypes(cb)
         'url': entryTypesUrl+'/' + sectionId,
         'dataType': 'json',
         'timeout': 50000000,
-        data: {
-            'CRAFT_CSRF_TOKEN': window.csrfTokenValue
-        }
+        data: postData
     }).done(function (data) {
 
         addToEntryTypes(data['entryTypes'], function (success) {
@@ -315,6 +322,9 @@ function populateElements(templateId, entryTypeId, cb)
 {
     console.log("Starting to populate Elements");
 
+    var postData = {};
+    postData[Craft.csrfTokenName] = window.csrfTokenValue;
+
     $.ajax({
         'type': 'post',
         'contentType': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -322,9 +332,7 @@ function populateElements(templateId, entryTypeId, cb)
         'url': elementsUrl + '/' + templateId + '/' + entryTypeId,
         'dataType': 'json',
         'timeout': 50000000,
-        data: {
-            'CRAFT_CSRF_TOKEN': window.csrfTokenValue
-        }
+        data: postData
     }).done(function (data) {
 
         clearAllElementsByClass("tab-wrapper");
@@ -430,7 +438,8 @@ function populateFieldsElement(fields, elementName) {
     }
 }
 
-function elementTypeValidate(elementContext) {
+function elementTypeValidate(elementContext)
+{
     element = elementContext.context;
     elementName = element.id;
     fieldHandle = element.options[element.selectedIndex].value;
@@ -440,6 +449,9 @@ function elementTypeValidate(elementContext) {
 
     console.log("Triggered field type validation");
 
+    var postData = {};
+    postData[Craft.csrfTokenName] = window.csrfTokenValue;
+
     $.ajax({
         'type': 'post',
         'contentType': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -447,9 +459,7 @@ function elementTypeValidate(elementContext) {
         'url': validateElementUrl +'/' + elementName + '/' + fieldHandle + '/' + templateId,
         'dataType': 'json',
         'timeout': 50000000,
-        data: {
-            'CRAFT_CSRF_TOKEN': window.csrfTokenValue
-        }
+        data: postData
     }).done(function (data) {
 
         var elementErrorId = 'element-error-' + elementName;
@@ -478,6 +488,9 @@ function populateTemplates(cb)
     var projectId = projectsElement.options[projectsElement.selectedIndex].value;
     console.log("projectId " + projectId);
 
+    var postData = {};
+    postData[Craft.csrfTokenName] = window.csrfTokenValue;
+
     $.ajax({
         'type': 'post',
         'contentType': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -485,9 +498,7 @@ function populateTemplates(cb)
         'url': templatesUrl+'/' + projectId,
         'dataType': 'json',
         'timeout': 50000000,
-        data: {
-            'CRAFT_CSRF_TOKEN': window.csrfTokenValue
-        }
+        data: postData
     }).done(function (data) {
 
         addToTemplates(data['templates'], function (success) {
@@ -501,6 +512,9 @@ function populateTemplates(cb)
 
 function populateSections(cb)
 {
+    var postData = {};
+    postData[Craft.csrfTokenName] = window.csrfTokenValue;
+
     $.ajax({
         'type': 'post',
         'contentType': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -508,9 +522,7 @@ function populateSections(cb)
         'url': sectionsUrl,
         'dataType': 'json',
         'timeout': 50000000,
-        data: {
-            'CRAFT_CSRF_TOKEN': window.csrfTokenValue
-        }
+        data: postData
     }).done(function (data) {
 
         addToSections(data['sections']);
@@ -542,7 +554,7 @@ function addToTemplates(templates, cb) {
             $select.append($newOption);
         }
     }
-    
+
     return cb(true);
 }
 
@@ -563,8 +575,11 @@ function addToSections(sections) {
     }
 }
 
-function populateAccounts()
-{
+function populateAccounts() {
+
+    var postData = {};
+    postData[Craft.csrfTokenName] = window.csrfTokenValue;
+
     $.ajax({
         'type': 'post',
         'contentType': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -572,9 +587,7 @@ function populateAccounts()
         'url': accountsUrl,
         'dataType': 'json',
         'timeout': 50000000,
-        data: {
-            'CRAFT_CSRF_TOKEN': window.csrfTokenValue
-        }
+        data: postData
     }).done(function (data) {
 
         addToAccounts(data['accounts']);
@@ -586,6 +599,11 @@ function populateAccounts()
 }
 
 function addToAccounts(accounts) {
+
+    if (window.dontAssignEvenets === true) {
+        return;
+    }
+
     $select = $("#gatherContentAccountId");
 
     if (accounts.length > 1) {
@@ -611,11 +629,20 @@ function addToAccounts(accounts) {
     }
 }
 
-function populateProjects(cb)
-{
+function populateProjects(cb) {
+
+    var postData = {};
+    postData[Craft.csrfTokenName] = window.csrfTokenValue;
+
     var accountElement = document.getElementById("gatherContentAccountId");
     console.log("accountElement " + accountElement);
     var accountId = accountElement.options[accountElement.selectedIndex].value;
+
+    if (!accountId) {
+        console.log("Account with ID " + accountId + " not found");
+        return;
+    }
+
     console.log("accountId " + accountId);
 
     $.ajax({
@@ -625,9 +652,7 @@ function populateProjects(cb)
         'url': projectsUrl +'/'+accountId,
         'dataType': 'json',
         'timeout': 50000000,
-        data: {
-            'CRAFT_CSRF_TOKEN': window.csrfTokenValue
-        }
+        data: postData
     }).done(function (data) {
         addToProjects(data['projects'], function (success) {
         });
@@ -738,6 +763,9 @@ function integrate(templateId)
 
     if (templateId === null) {
 
+        var postData = {};
+        postData[Craft.csrfTokenName] = window.csrfTokenValue;
+
         // Migrate All Templates
         $.ajax({
             'type': 'post',
@@ -746,9 +774,7 @@ function integrate(templateId)
             'url': allMappingsUrl,
             'dataType': 'json',
             'timeout': 50000000,
-            data: {
-                'CRAFT_CSRF_TOKEN': window.csrfTokenValue
-            }
+            data: postData
         }).done(function (mappingsData) {
 
             mappingsList = mappingsData['mappings'];
@@ -803,6 +829,10 @@ function integrateMapping (templateId, finishedMappingsCount, allMappingsCount, 
     }
 
     onMigratingStatus(templateId, function () {
+
+        var postData = {};
+        postData[Craft.csrfTokenName] = window.csrfTokenValue;
+
         $.ajax({
             'type': 'post',
             'contentType': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -810,9 +840,7 @@ function integrateMapping (templateId, finishedMappingsCount, allMappingsCount, 
             'url': integrateFullUrl,
             'dataType': 'json',
             'timeout': 50000000,
-            data: {
-                'CRAFT_CSRF_TOKEN': window.csrfTokenValue
-            }
+            data: postData
         }).done(function (integrateData) {
 
             migrationId = integrateData.migrationId;

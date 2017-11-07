@@ -45,26 +45,6 @@ class GatherContent_SettingsModel extends BaseModel
     }
 
     /**
-     * Gets the demo template content
-     *
-     * @param string $name
-     *
-     * @return string
-     * @throws FreeformException
-     */
-    public function getDemoTemplateContent($name = "flexbox")
-    {
-        $path = CRAFT_PLUGINS_PATH . "freeform/templates/_defaultFormTemplates/$name.html";
-        if (!file_exists($path)) {
-            throw new Exception(
-                Craft::t("Could not get demo template content. Please contact Solspace.")
-            );
-        }
-
-        return file_get_contents($path);
-    }
-
-    /**
      * @return array|bool
      */
     public function listTemplatesInFormTemplateDirectory()
@@ -93,7 +73,7 @@ class GatherContent_SettingsModel extends BaseModel
     protected function defineAttributes()
     {
         return [
-            'fastlyApiKey' => array(AttributeType::String, 'required' => false),
+            'gathercontentApiKey' => array(AttributeType::String, 'required' => false),
             'serviceId' => array(AttributeType::String, 'required' => false),
             "license"               => [AttributeType::String, "default" => null],
         ];
