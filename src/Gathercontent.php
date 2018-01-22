@@ -63,6 +63,8 @@ use yii\base\Event;
  */
 class Gathercontent extends Plugin
 {
+	public $changelogUrl = 'https://github.com/gathercontent/craft-integration/blob/master/CHANGELOG.md';
+	
     // Static Properties
     // =========================================================================
 
