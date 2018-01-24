@@ -2,7 +2,7 @@
     "name": "gathercontent/gathercontent",
     "description": "Integrates GatherContent",
     "type": "craft-plugin",
-    "version": "1.0.1-beta.3",
+    "version": "1.0.1-beta.4",
     "keywords": [
         "craft",
         "cms",
@@ -27,8 +27,7 @@
         "symfony/finder": "^2.8",
         "symfony/filesystem": "^2.8",
         "hashids/hashids": "^1.0",
-        "pixel418/markdownify": "2.1.11",
-        "egulias/email-validator": "^1.2"
+        "pixel418/markdownify": "2.1.11"
     },
     "repositories": [
         {
