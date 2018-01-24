@@ -2,7 +2,7 @@
     "name": "gathercontent/gathercontent",
     "description": "Integrates GatherContent",
     "type": "craft-plugin",
-    "version": "1.0.1-beta.1",
+    "version": "1.0.1-beta.2",
     "keywords": [
         "craft",
         "cms",
