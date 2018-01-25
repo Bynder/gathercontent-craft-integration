@@ -118,7 +118,7 @@ function switchMapping(element) {
             }
         }
 
-    }).error(function (jqXHR, textStatus, errorThrown) {
+    }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log(jQuery.parseJSON(jqXHR.responseText));
         alert("Something went wrong: " + jQuery.parseJSON(jqXHR.responseText)['error']['message']);
     });
@@ -221,7 +221,7 @@ function populateEntryTypes(cb)
         addToEntryTypes(data['entryTypes'], function (success) {
         });
 
-    }).error(function (jqXHR, textStatus, errorThrown) {
+    }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log(jQuery.parseJSON(jqXHR.responseText));
         alert("Something went wrong: " + jQuery.parseJSON(jqXHR.responseText)['error']['message']);
     });
@@ -273,7 +273,7 @@ function populateFields(entryTypeId, templateId, elementName, cb)
     //         return cb(done);
     //     });
     //
-    // }).error(function (jqXHR, textStatus, errorThrown) {
+    // }).fail(function (jqXHR, textStatus, errorThrown) {
     //     console.log(jQuery.parseJSON(jqXHR.responseText));
     //     alert("Something went wrong: " + jQuery.parseJSON(jqXHR.responseText)['error']['message']);
     // });
@@ -340,7 +340,7 @@ function populateElements(templateId, entryTypeId, cb)
             return cb(true);
         });
 
-    }).error(function (jqXHR, textStatus, errorThrown) {
+    }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log(jQuery.parseJSON(jqXHR.responseText));
         alert("Something went wrong: " + jQuery.parseJSON(jqXHR.responseText)['error']['message']);
     });
@@ -473,7 +473,7 @@ function elementTypeValidate(elementContext)
             console.log("Everything is good");
             $("#"+elementErrorId).text('');
         }
-    }).error(function (jqXHR, textStatus, errorThrown) {
+    }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log(jQuery.parseJSON(jqXHR.responseText));
         alert("Something went wrong: " + jQuery.parseJSON(jqXHR.responseText)['error']['message']);
     });
@@ -504,7 +504,7 @@ function populateTemplates(cb)
         addToTemplates(data['templates'], function (success) {
         });
 
-    }).error(function (jqXHR, textStatus, errorThrown) {
+    }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log(jQuery.parseJSON(jqXHR.responseText));
         alert("Something went wrong: " + jQuery.parseJSON(jqXHR.responseText)['error']['message']);
     });
@@ -527,7 +527,7 @@ function populateSections(cb)
 
         addToSections(data['sections']);
 
-    }).error(function (jqXHR, textStatus, errorThrown) {
+    }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log(jQuery.parseJSON(jqXHR.responseText));
         alert("Something went wrong: " + jQuery.parseJSON(jqXHR.responseText)['error']['message']);
     });
@@ -592,7 +592,7 @@ function populateAccounts() {
 
         addToAccounts(data['accounts']);
 
-    }).error(function (jqXHR, textStatus, errorThrown) {
+    }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log(jQuery.parseJSON(jqXHR.responseText));
         alert("Something went wrong: " + jQuery.parseJSON(jqXHR.responseText)['error']['message']);
     });
@@ -657,7 +657,7 @@ function populateProjects(cb) {
         addToProjects(data['projects'], function (success) {
         });
 
-    }).error(function (jqXHR, textStatus, errorThrown) {
+    }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log(jQuery.parseJSON(jqXHR.responseText));
         alert("Something went wrong: " + jQuery.parseJSON(jqXHR.responseText)['error']['message']);
     });
@@ -747,7 +747,7 @@ function unhideLoader() {
             $("input:checkbox").prop('checked',false);
             redirect(url);
         }
-    }).error(function (jqXHR, textStatus, errorThrown) {
+    }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log(jQuery.parseJSON(jqXHR.responseText));
         alert("Something went wrong: " + jQuery.parseJSON(jqXHR.responseText)['error']['message']);
     });
@@ -798,7 +798,7 @@ function integrate(templateId)
                 });
             }
 
-        }).error(function (jqXHR, textStatus, errorThrown) {
+        }).fail(function (jqXHR, textStatus, errorThrown) {
             console.log(jQuery.parseJSON(jqXHR.responseText));
             alert("Something went wrong: " + jQuery.parseJSON(jqXHR.responseText)['error']['message']);
         });
@@ -878,7 +878,7 @@ function integrateMapping (templateId, finishedMappingsCount, allMappingsCount, 
                 }
             });
 
-        }).error(function (jqXHR, textStatus, errorThrown) {
+        }).fail(function (jqXHR, textStatus, errorThrown) {
             console.log(jQuery.parseJSON(jqXHR.responseText));
             alert("Something went wrong: " + jQuery.parseJSON(jqXHR.responseText)['error']['message']);
         });
