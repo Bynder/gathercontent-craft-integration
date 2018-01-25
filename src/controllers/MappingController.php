@@ -53,8 +53,7 @@ class MappingController extends Controller
         );
 
         $mappings = $pageService->filteredData;
-
-
+        
         foreach ($mappings as $mapping) {
             $templateItemsCounts[$mapping->gatherContentTemplateId] = $this->gatherContentService->getTemplateItemsCount($mapping->gatherContentTemplateId, $mapping->gatherContentAccountId);
         }
@@ -198,6 +197,7 @@ class MappingController extends Controller
     public function actionEdit($mappingId = null)
     {
         $mapping = null;
+        $hasSections = null;
 
         $elementErrors = [];
         $accountOptions = [];
@@ -213,6 +213,13 @@ class MappingController extends Controller
         $isEdit = false;
         $form = new MappingForm();
         $post = Craft::$app->request->post();
+
+        /** @var Sections $sectionsService */
+        $sectionsService = Craft::$app->get("sections");
+        $sections = $sectionsService->getAllSections();
+        if (! empty($sections)) {
+        	$hasSections	= TRUE;
+        }
 
         if ($mappingId !== null || $post) {
 
@@ -281,6 +288,7 @@ class MappingController extends Controller
 
 
         return $this->renderTemplate("gatherContent/mapping/edit", [
+            'hasSections' => $hasSections,
             'craftStatuses' => $craftStatuses,
             'mainValidation' => $mainValidation,
             'elementErrors' => $elementErrors,
