@@ -94,7 +94,7 @@ class Gathercontent extends Plugin
     {
         try {
             parent::init();
-            $this->name = "GatherContent (Beta)";
+            $this->name = "GatherContent";
             self::$plugin = $this;
 
             $this->setComponents([
