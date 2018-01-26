@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.0.4 - 2018.01.26
+### Fixed
+- Resolve API url issues preventing migrations.
+
+## 1.0.3 - 2018.01.25
+### Added
+- Fix for jQuery errors.
+
 ## 1.0.2 - 2018.01.25
 ### Removed
 - Remove beta designation.

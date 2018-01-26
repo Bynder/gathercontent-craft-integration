@@ -177,7 +177,7 @@ function clearEverything() {
 function setUpSecondRow() {
     var templateOption = $('<option disabled selected value>Select GatherContent Project</option>');
     $('#gatherContentTemplateId').append(templateOption).prop('disabled', true).addClass('disabled');
-    var entryTypeOption = $('<option disabled selected value>Select Craft Section/option>');
+    var entryTypeOption = $('<option disabled selected value>Select Craft Section</option>');
     $('#craftEntryTypeId').prop('disabled', true).append(entryTypeOption).addClass('disabled');
 }
 
@@ -727,7 +727,7 @@ function unhideLoader() {
     console.log('Unhide loader');
     $('#migration-loader').removeClass('hidden');
 
-    var form = $('#container');
+    var form = $('#main-form');
 
     // Migrate All Templates
     $.ajax({

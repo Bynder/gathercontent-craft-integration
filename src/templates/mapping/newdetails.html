@@ -14,7 +14,7 @@
     <form method="post" accept-charset="UTF-8" data-saveshortcut="1">
 {% endset %}
 
-{% block saveButton %}
+{% block actionButton %}
     <div class="buttons">
         <div class="btngroup submit">
         <div id="migration-loader" style="margin-top: 0; margin-right:5px" class="spinner loadingmore hidden"></div>
@@ -28,15 +28,15 @@
 {% block main %}
 
         <script>
-                var migrationFinishedUrl = '{{ cpUrl('migration-finished') }}';
-                var integrateItemsUrl = '{{ cpUrl('integrate-items-individually') }}';
+                var migrationFinishedUrl = '{{ url('gatherContent/api/migration-finished') }}';
+                var integrateItemsUrl = '{{ url('gatherContent/api/integrate-items-individually') }}';
                 var templateId = '{{ mapping.gatherContentTemplateId }}';
                 var clearSearchRoute = '{{ url('gatherContent/mapping/template') }}';
                 var isDetails = 'true';
                 var isEdit = 'false';
         </script>
 
-        <div class="pane">
+        <div id="content-container">
             <div id="content" class="content">
                 <div class="body">
 
