@@ -4,30 +4,19 @@
 
 {% set selectedSubnavItem = "mapping" %}
 
-{% set extraPageHeaderHtml %}
-
-<div class="buttons" style="margin-bottom: 0">
-
-    {% if isValidApiUser %}
-    <div id="migration-loader" style="margin-top: 0; margin-right:5px" class="spinner loadingmore hidden"></div>
-    <a onclick="integrate(null)" class="btn submit loading">
-    {{ "Run all migrations "|t }}
-    </a>
-    <a class="btn submit loading" href="{{ url('gatherContent/mapping/new/') }}">
-        {{ "Create new mapping "|t }}
-    </a>
-    {% endif %}
-
-</div>
-
-<!--<div id="migrating-bar">-->
-    <!--<div id="myProgress">-->
-        <!--<div id="myBar">-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
-
-{% endset %}
+{% block actionButton %}
+    <div class="buttons">
+		{% if isValidApiUser %}
+		<div id="migration-loader" style="margin-top: 0; margin-right:5px" class="spinner loadingmore hidden"></div>
+		<a onclick="integrate(null)" class="btn submit loading">
+		{{ "Run all migrations "|t }}
+		</a>
+		<a class="btn submit loading" href="{{ url('gatherContent/mapping/new/') }}">
+			{{ "Create new mapping "|t }}
+		</a>
+		{% endif %}
+    </div>
+{% endblock %}
 
 {% set title = "GatherContent: Mapping" %}
 
