@@ -4,7 +4,7 @@ Gather Content: Craft 3 Integration
 
 ## Installation
 
-[Insallation Instructions](http://help.gathercontent.com/importing-and-exporting-content/craft-integration/craft-integration-installation)
+[Insallation Instructions](http://help.gathercontent.com/importing-and-exporting-content#craft-integration)
 
 ## Overview
 
