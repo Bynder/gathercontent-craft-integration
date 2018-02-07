@@ -13,6 +13,6 @@ Brought to you by GatherContent and Craft CMS, our integration is one of the fir
 
 ## Using GatherContent
 
-[Documentation](http://help.gathercontent.com/importing-and-exporting-content/craft-integration/craft-integration-introduction)
+[Documentation](http://help.gathercontent.com/importing-and-exporting-content#craft-integration)
 
 Brought to you by [Solspace](http://solspace.com)
