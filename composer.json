@@ -22,10 +22,10 @@
         }
     ],
     "require": {
-        "craftcms/cms": "~3.0.0-RC1",
-        "symfony/property-access": "^2.8",
-        "symfony/finder": "^2.8",
-        "symfony/filesystem": "^2.8",
+        "craftcms/cms": "^3.0.0",
+        "symfony/property-access": "^3.3",
+        "symfony/finder": "^3.3",
+        "symfony/filesystem": "^3.3",
         "hashids/hashids": "^1.0",
         "pixel418/markdownify": "2.1.11"
     },

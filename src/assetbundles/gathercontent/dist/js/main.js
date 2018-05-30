@@ -842,6 +842,9 @@ function integrateMapping (templateId, finishedMappingsCount, allMappingsCount, 
             'timeout': 50000000,
             data: postData
         }).done(function (integrateData) {
+            if (integrateData.error && integrateData.error.length > 0) {
+                throw integrateData.error;
+            }
 
             migrationId = integrateData.migrationId;
 

@@ -165,6 +165,8 @@ class CraftEntityMapping
     public function setModelAttributes(\craft\elements\Entry $model, SalesforceObjectMapping $objectMapping, $SObject)
     {
         if ($this->attributes) {
+            $model->typeId = $this->attributes['typeId'];
+            $model->sectionId = $this->attributes['sectionId'];
             $model->setAttributes($this->attributes);
         }
 
