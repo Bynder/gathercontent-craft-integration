@@ -70,45 +70,45 @@ class Install extends Migration
 
         $this->addForeignKey(
             'fields_tabs_fk',
-            'gathercontent_mapping_fields',
+            '{{%gathercontent_mapping_fields}}',
             'tabId',
-            'gathercontent_mapping_tabs',
+            '{{%gathercontent_mapping_tabs}}',
             'id',
             'SET NULL'
         );
 
         $this->addForeignKey(
             'tabs_mapping_fk',
-            'gathercontent_mapping_tabs',
+            '{{%gathercontent_mapping_tabs}}',
             'mappingId',
-            'gathercontent_mapping',
+            '{{%gathercontent_mapping}}',
             'id',
             'SET NULL'
         );
 
         $this->addForeignKey(
             'mapping_items_migrations_fk',
-            'gathercontent_migration_items',
+            '{{%gathercontent_migration_items}}',
             'migrationid',
-            'gathercontent_migrations',
+            '{{%gathercontent_migrations}}',
             'id',
             'SET NULL'
         );
 
         $this->addForeignKey(
             'mapping_items_mapping_fk',
-            'gathercontent_migration_items',
+            '{{%gathercontent_migration_items}}',
             'mappingId',
-            'gathercontent_mapping',
+            '{{%gathercontent_mapping}}',
             'id',
             'SET NULL'
         );
 
         $this->addForeignKey(
             'mapping_items_relationship_fk',
-            'gathercontent_migration_items',
+            '{{%gathercontent_migration_items}}',
             'relationshipId',
-            'gathercontent_relationships',
+            '{{%gathercontent_relationships}}',
             'id',
             'SET NULL'
         );
@@ -130,11 +130,11 @@ class Install extends Migration
     {
         $this->driver = Craft::$app->getConfig()->getDb()->driver;
 //
-        $this->dropForeignKey('tabs_mapping_fk', 'gathercontent_mapping_tabs');
-        $this->dropForeignKey('fields_tabs_fk', 'gathercontent_mapping_fields');
-        $this->dropForeignKey('mapping_items_mapping_fk', 'gathercontent_migration_items');
-        $this->dropForeignKey('mapping_items_migrations_fk', 'gathercontent_migration_items');
-        $this->dropForeignKey('mapping_items_relationship_fk', 'gathercontent_migration_items');
+        $this->dropForeignKey('tabs_mapping_fk', '{{%gathercontent_mapping_tabs}}');
+        $this->dropForeignKey('fields_tabs_fk', '{{%gathercontent_mapping_fields}}');
+        $this->dropForeignKey('mapping_items_mapping_fk', '{{%gathercontent_migration_items}}');
+        $this->dropForeignKey('mapping_items_migrations_fk', '{{%gathercontent_migration_items}}');
+        $this->dropForeignKey('mapping_items_relationship_fk', '{{%gathercontent_migration_items}}');
 
         foreach ($this->getTableData() as $data) {
             $this->dropTableIfExists($data['table']);
@@ -150,7 +150,7 @@ class Install extends Migration
     {
         return [
             [
-                'table'  => 'gathercontent_mapping',
+                'table'  => '{{%gathercontent_mapping}}',
                 'fields' => [
                     'id' => $this->primaryKey(),
                     'craftSectionId' => $this->integer(),
@@ -168,7 +168,7 @@ class Install extends Migration
                 ],
             ],
             [
-                'table'  => 'gathercontent_mapping_fields',
+                'table'  => '{{%gathercontent_mapping_fields}}',
                 'fields' => [
                     'id' => $this->primaryKey(),
                     'craftFieldHandle' => $this->string(255),
@@ -177,7 +177,7 @@ class Install extends Migration
                 ],
             ],
             [
-                'table'  => 'gathercontent_relationships',
+                'table'  => '{{%gathercontent_relationships}}',
                 'fields' => [
                     'id' => $this->primaryKey(),
                     'craftElementId' => $this->integer(),
@@ -188,7 +188,7 @@ class Install extends Migration
                 ],
             ],
             [
-                'table'  => 'gathercontent_mapping_tabs',
+                'table'  => '{{%gathercontent_mapping_tabs}}',
                 'fields' => [
                     'id' => $this->primaryKey(),
                     'title' => $this->string(255),
@@ -197,13 +197,13 @@ class Install extends Migration
                 ],
             ],
             [
-                'table'  => 'gathercontent_migrations',
+                'table'  => '{{%gathercontent_migrations}}',
                 'fields' => [
                     'id' => $this->primaryKey(),
                 ],
             ],
             [
-                'table'  => 'gathercontent_migration_items',
+                'table'  => '{{%gathercontent_migration_items}}',
                 'fields' => [
                     'id' => $this->primaryKey(),
                     'mappingId' => $this->integer(),
