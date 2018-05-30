@@ -26,7 +26,8 @@ class CraftFieldMapping
     const TYPE_MULTI_SELECT = "multiselect";
     const TYPE_CHECKBOXES = "checkboxes";
     const TYPE_RADIO_BUTTONS = "radio";
-    const TYPE_RICH_TEXT = "richText";
+    const TYPE_CKEDITOR  = "ckeditor";
+    const TYPE_REDACTOR  = "redactor";
     const TYPE_TEXT      = "text";
     const TYPE_IMAGE     = "image";
     const TYPE_DATE      = "date";
@@ -237,7 +238,8 @@ class CraftFieldMapping
                 $value = \strip_tags((string)$value);
                 break;
 
-            case self::TYPE_RICH_TEXT:
+            case self::TYPE_CKEDITOR:
+            case self::TYPE_REDACTOR:
                 $value = (string)$value;
                 break;
 

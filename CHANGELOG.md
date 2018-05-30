@@ -4,9 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 1.0.3 - 2018.05.30
+## 1.0.6 - 2018.05.30
 ### Added
-- Fix for error popping after content migration is finished.
+- Added support for CKEditor and Redactor as Craft 2 RichText field replacements
+### Fixed
+- Fixed error popping after content migration is finished.
+- Fixed missing controls on plugin index page
 
 ## 1.0.2 - 2018.01.25
 ### Removed

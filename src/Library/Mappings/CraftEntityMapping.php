@@ -9,26 +9,19 @@ use craft\fields\Checkboxes;
 use craft\fields\Dropdown;
 use craft\fields\MultiSelect;
 use craft\fields\Number;
-use craft\fields\PlainText;
 use craft\fields\RadioButtons;
-use craft\fields\RichText;
 use craft\fields\Tags;
 use craft\helpers\Db;
 use craft\models\EntryDraft;
 use craft\models\EntryType;
 use craft\models\TagGroup;
-use craft\records\Element;
-use craft\records\Entry;
 use function Craft\returnIfSet;
 use craft\services\Elements;
-use craft\services\Entries;
 use craft\services\Fields;
+use craft\services\Plugins;
 use craft\services\Sections;
 use gathercontent\gathercontent\Gathercontent;
 use gathercontent\gathercontent\models\MappingModel;
-use gathercontent\gathercontent\records\MappingRecord;
-use gathercontent\gathercontent\records\RelationTableRecord;
-use gathercontent\gathercontent\services\GatherContent_AssetService;
 use gathercontent\gathercontent\services\LoggerService;
 use SolspaceMigration\Library\Exceptions\GatherContentException;
 use SolspaceMigration\Library\Repositories\RelationshipRepository;
@@ -320,14 +313,20 @@ class CraftEntityMapping
 
     private function getFieldType($fieldModel)
     {
+        /** @var Plugins $plugins */
+        $plugins = \Craft::$app->plugins;
         $fieldType = CraftFieldMapping::TYPE_TEXT;
 
         if ($fieldModel instanceof Assets) {
             return CraftFieldMapping::TYPE_IMAGE;
         }
 
-        if ($fieldModel instanceof RichText) {
-            return CraftFieldMapping::TYPE_RICH_TEXT;
+        if ($plugins->isPluginInstalled('ckeditor') && $fieldModel instanceof \craft\ckeditor\Field) {
+            return CraftFieldMapping::TYPE_CKEDITOR;
+        }
+
+        if ($plugins->isPluginInstalled('redactor') && $fieldModel instanceof \craft\redactor\Field) {
+            return CraftFieldMapping::TYPE_REDACTOR;
         }
 
         if ($fieldModel instanceof Checkboxes) {
@@ -493,29 +492,10 @@ class CraftEntityMapping
         if ($elementId) {
             /** @var Elements $elementsService */
             $elementsService = \Craft::$app->get('elements');
-
-            /** @var Element $record */
-            $record = $elementsService->getElementById($elementId);
-
-            // Delete Relationship Record if we cannot find corresponding Craft's entry. Probably because it has deleted
-//            if (!$record) {
-//                $relationRecord = RelationTableRecord::find()
-//                    ->where([
-//                        'craftElementId' => $elementId,
-//                    ])
-//                    ->one();
-//
-//                if ($relationRecord) {
-//                    $relationRecord->delete();
-//                }
-//            }
-
-            if ($record) {
-                $model->setAttributes($record->getAttributes(), false);
+            $element = $elementsService->getElementById($elementId);
+           if ($element) {
+                $model = $element;
             }
-
-//            $record = call_user_func($this->recordClassName . "::model")->findById($elementId);
-//            $model  = call_user_func($this->modelClassName . "::populateModel", $record);
         } else {
             if ($this->lookupBy) {
                 $lookupAttributes = [];

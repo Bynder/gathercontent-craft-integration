@@ -842,7 +842,7 @@ function integrateMapping (templateId, finishedMappingsCount, allMappingsCount, 
             'timeout': 50000000,
             data: postData
         }).done(function (integrateData) {
-            if (integrateData.error && integrateData.error.length > 0) {
+            if (integrateData.success !== true && integrateData.success !== "true") {
                 throw integrateData.error;
             }
 

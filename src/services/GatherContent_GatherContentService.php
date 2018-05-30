@@ -17,9 +17,10 @@ class GatherContent_GatherContentService extends Component
 
         'text' => [
             'craft\fields\PlainText',
-            'craft\fields\RichText',
             'craft\fields\Tags',
             'craft\fields\Number',
+            'craft\ckeditor\Field',
+            'craft\redactor\Field',
         ],
         'choice_radio' => [
             'craft\fields\RadioButtons',
