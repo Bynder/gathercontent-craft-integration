@@ -62,7 +62,7 @@ class GatherContent_AssetService extends Component
 
         set_time_limit(0);
         //This is the file where we save the    information
-        $fp = fopen ($path . '/' . $urlInfo->filename, 'w+');
+        $fp = fopen (Craft::getAlias($path) . '/' . $urlInfo->filename, 'w+');
         //Here is the file we are downloading, replace spaces with %20
         $ch = curl_init(str_replace(" ","%20",$urlInfo->url));
         curl_setopt($ch, CURLOPT_TIMEOUT, 50);

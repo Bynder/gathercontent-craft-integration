@@ -2,6 +2,8 @@
 
 namespace Craft;
 
+use Craft;
+
 /**
  * @property string $defaultView
  * @property bool   $spamProtectionEnabled
@@ -36,7 +38,7 @@ class GatherContent_SettingsModel extends BaseModel
     public function getAbsoluteFormTemplateDirectory()
     {
         if ($this->formTemplateDirectory) {
-            $absolutePath = $this->getAbsolutePath($this->formTemplateDirectory);
+            $absolutePath = $this->getAbsolutePath(Craft::getAlias($this->formTemplateDirectory));
 
             return file_exists($absolutePath) ? $absolutePath : null;
         }
