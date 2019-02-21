@@ -111,7 +111,7 @@ class Gathercontent extends Plugin
             ]);
 
             // Add in our Twig extensions
-            Craft::$app->view->twig->addExtension(new GathercontentTwigExtension());
+            Craft::$app->view->registerTwigExtension(new GathercontentTwigExtension());
 
             // Add in our console commands
             if (Craft::$app instanceof ConsoleApplication) {
