@@ -452,6 +452,15 @@ class GatherContent_GatherContentService extends Component
         return $projectResult['name'];
     }
 
+    public function downloadAsset($assetId, $file)
+    {
+        $client = $this->getClient();
+
+        $file = $client->get('/files/' . $assetId . '/download', [
+            'sink' => $file
+        ]);
+    }
+
     public function getTemplatesByProjectId($projectId)
     {
         $result = [];
@@ -732,7 +741,7 @@ class GatherContent_GatherContentService extends Component
 
         foreach ($files as $file) {
             $result[$file['field']][] = [
-                'url' => $file['url'],
+                'id' => $file['id'],
                 'filename' => $file['filename'],
             ];
         }

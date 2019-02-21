@@ -16,6 +16,16 @@ class GatherContent_AssetService extends Component
     const GC_FOLDER_PATH = 'temp-files';
     const GC_FOLDER_ID = 6;
 
+    /** @var  GatherContent_GatherContentService $gatherContentService */
+    private $gatherContentService;
+
+    public function init()
+    {
+        $this->gatherContentService = Gathercontent::$plugin->gatherContent_gatherContent;
+
+        parent::init();
+    }
+
     public function getValue($urls)
     {
         $result = [];
@@ -57,22 +67,9 @@ class GatherContent_AssetService extends Component
 
     public function downloadUrl($urlInfo, $downloadPath)
     {
-//        $path = Gathercontent::$plugin->basePath . '/' . self::GC_FOLDER_PATH;
         $path = $downloadPath;
 
-        set_time_limit(0);
-        //This is the file where we save the    information
-        $fp = fopen (Craft::getAlias($path) . '/' . $urlInfo->filename, 'w+');
-        //Here is the file we are downloading, replace spaces with %20
-        $ch = curl_init(str_replace(" ","%20",$urlInfo->url));
-        curl_setopt($ch, CURLOPT_TIMEOUT, 50);
-        // write curl response to file
-        curl_setopt($ch, CURLOPT_FILE, $fp);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        // get curl response
-        curl_exec($ch);
-        curl_close($ch);
-        fclose($fp);
+        $this->gatherContentService->downloadAsset($urlInfo->id, Craft::getAlias($path) . '/' . $urlInfo->filename);
 
         return $urlInfo->filename;
     }
