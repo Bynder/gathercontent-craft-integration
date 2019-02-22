@@ -1,3 +1,6 @@
+This plugin is not actively maintained. It is open source and free to use
+=============================================
+
 Gather Content: Craft 3 Integration
 
 ![Screenshot](resources/img/plugin-logo.png)
