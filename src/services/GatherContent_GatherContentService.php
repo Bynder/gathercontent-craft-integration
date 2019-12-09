@@ -850,9 +850,11 @@ class GatherContent_GatherContentService extends Component
         $this->finishedMigration = false;
         $items = $this->getTemplateItems($items);
         $result = [];
+
         usort($items, function ($item1, $item2) {
             return $item2['id'] <=> $item1['id'];
         });
+
 
         if ($specificIdList !== null) {
             foreach ($items as $key => $item) {
