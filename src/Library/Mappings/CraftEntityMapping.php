@@ -134,7 +134,6 @@ class CraftEntityMapping
         $entity->callback            = $callback;
         $entity->service             = $service;
         $entity->attributes          = $attributes;
-        $entity->afterInsertCallback = Gathercontent::returnIfSet($events["after_insert"]);
         $entity->afterInsertCallback = isset($events["after_insert"]) ? $events["after_insert"] : null;
         $entity->afterSaveCallback   = isset($events["after_save"]) ? $events["after_save"] : null;
         $entity->beforeSaveCallback  = isset($events["before_save"]) ? $events["before_save"] : null;
